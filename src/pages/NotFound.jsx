@@ -4,6 +4,7 @@ import { MdHomeFilled } from 'react-icons/md'
 export default function NotFound() {
     return (
         <>
+        
             <div className='flex flex-col items-center justify-center w-screen h-screen bg-yummy-800 text-white gap-4'>
                 <h1 className='lg:text-8xl md:text-8xl sm:text-5xl text-4xl font-mono'>[ 404 ]</h1>
                 <span className='font-mono text-center'>We Can't Find That Page</span>

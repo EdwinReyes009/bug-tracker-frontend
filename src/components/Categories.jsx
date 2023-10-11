@@ -13,6 +13,7 @@ export default function Categories() {
                                 <span className='bg-yummy-400 w-14 h-14 flex items-center justify-center rounded-2xl text-xl select-none'>{category.emoji}</span>
                                 <h1 className='text-3xl'>{category.name}</h1>
                                 <p className='text-md'>{category.description}</p>
+                               
                             </div>
                         ))
                     }

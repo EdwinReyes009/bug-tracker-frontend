@@ -78,7 +78,7 @@ function LoginForm() {
       email: email,
       password: password
     }
-    const data = await BD_ACTION_POST('auth', 'sign_in', body)
+    const data = await axios.post('')
     if (!data.error) {
       setJWT(data.msg.token)
       setTimeout(() => {
@@ -95,9 +95,9 @@ function LoginForm() {
 
   return (
     <>
-      <Loader load={load} />
+      {/* <Loader load={load} /> */}
       <div className='bg-white px-8 py-5 rounded-3xl border-2 border-gray-100 w-[50%] text-center'>
-        <h1 className=' text-4xl font-semibold text-center'>Welcome Back</h1>
+        <h1 className=' text-4xl font-semibold text-center'>Welcome to Bug Tracker</h1>
         <p className=" font-medium text-lg text-gray-500 mt-1">Please, enter your details</p>
 
         <form className="mt-4" onSubmit={handleSubmit}>
@@ -142,9 +142,9 @@ function LoginForm() {
           {/* Options Buttons */}
           <div className='mt-8 flex justify-between items-center'>
             <div>
-              <Link className='font-medium text-base text-yummy-800 hover:text-red-700' to='/auth/sign_up'>Sign Up</Link>
+              <Link className='font-medium text-base text-yummy-800 hover:text-blue-900' to='/auth/sign_up'>Sign Up</Link>
             </div>
-            <Link className='font-medium text-base text-yummy-800 hover:text-red-700' to='/auth/forgot_password'>Forgot password</Link>
+            <Link className='font-medium text-base text-yummy-800 hover:text-blue-900' to='/auth/forgot_password'>Forgot password</Link>
           </div>
 
           {/* Sign In Buttons */}

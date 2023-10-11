@@ -1,5 +1,4 @@
-import Form from './LoginForm'
-import yumiLogo from '../assets/images/Yummy1.jpg'
+import yumiLogo from '../assets/images/carpeta.png'
 import LoginForm from './LoginForm'
 
 function Login() {

@@ -8,14 +8,11 @@ export default {
     extend: {
       colors: {
         yummy: {
-          400: '#FEAAAC',
-          600: '#FE8285',
-          800: '#FC5458'
+          400: '#35d0c7',
+          600: '#35d0c7',
+          800: '#3cb4bc',
         }
       },
-      fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif']
-      }
     },
   },
   plugins: [
