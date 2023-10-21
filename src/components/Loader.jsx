@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import YummyLogo from '../assets/images/YummyTransparent.png'
 
 function Loader(props) {
     const [dots, setDots] = useState(1)
@@ -15,12 +14,11 @@ function Loader(props) {
     if (props.load) {
         return (
             <>
-                <div className='bg-black bg-opacity-60 z-50 fixed select-none left-0 top-0 w-full h-full'>
-                    <div className='flex flex-col items-center justify-center h-full w-full gap-12'>
-                        <img src={YummyLogo} className='w-80 animate-ping animate-infinite animate-ease-out' />
-                        <span className='text-2xl text-white'>Loading, please wait{Array(dots).fill('.').join('')}</span>
-                    </div>
-                </div >
+                <div className="bg-green-300 border-t border-b border-green-500 text-green-700 px-4 py-3 animate-bounce fixed top-5 w-1/2 transform transition-transform duration-1000 ease-in-out">
+                    <p className="font-bold">Successful registration!</p>
+                    <p className="text-sm">A new user has been added to the system</p>
+                </div>
+
             </>
         )
     }

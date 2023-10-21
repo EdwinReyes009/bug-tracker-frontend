@@ -5,14 +5,16 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { setJWT } from '../services/jwt'
-import { BD_ACTION_POST } from '../services/master'
-import Loader from './Loader'
+import AlertSignIn from './AlertSignIn'
 import { Alert } from '@mui/material';
+import axios from 'axios';
 
 function LoginForm() {
   //State for show or hide the password
   const [showPassword, setShowPassword] = useState(false);
   const [load, setLoad] = useState(false)
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [confirmAlert, setConfirmAlert] = useState(false);
   const [alert, setAlert] = useState(false)
   const navigate = useNavigate()
 
@@ -39,11 +41,11 @@ function LoginForm() {
     const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
     return regex.test(email);
   }
-  const validatePassword = (password) => {
-    //Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/
-    return regex.test(password);
-  }
+  // const validatePassword = (password) => {
+  //   //Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.
+  //   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/
+  //   return regex.test(password);
+  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,46 +61,58 @@ function LoginForm() {
       });
     }
 
-    if (validatePassword(password)) {
-      setErrorPassword({
-        error: false,
-        message: "",
-      });
-    } else {
-      setErrorPassword({
-        error: true,
-        message: "Contraseña incorrecta"
-      });
-    }
+    // if (validatePassword(password)) {
+    //   setErrorPassword({
+    //     error: false,
+    //     message: "",
+    //   });
+    // } else {
+    //   setErrorPassword({
+    //     error: true,
+    //     message: "Contraseña incorrecta"
+    //   });
+    // }
   }
 
-  const post_sign_in = async () => {
-    setLoad(true)
-    const body = {
-      email: email,
-      password: password
-    }
-    const data = await axios.post('')
-    if (!data.error) {
-      setJWT(data.msg.token)
-      setTimeout(() => {
-        navigate('/home')
-      }, 2000)
-    } else {
-      setLoad(false)
-      setAlert(true)
-      setTimeout(() => {
-        setAlert(false)
-      }, 6000);
-    }
-  }
 
+
+
+  const postSignIn = async () => {
+    try {
+      const data = await axios.post('http://localhost:8000/login', {
+        email: email,
+        password: password,
+      });
+
+      if (!data.error) {
+          setConfirmAlert(true);
+          setJWT(data.data.token)
+          setTimeout(() => {
+          navigate('/home')
+          }, 2000)
+         
+        } else {
+          setLoad(false)
+          setAlert(true)
+          setTimeout(() => {
+            setAlert(false)
+          }, 6000);
+        }
+      }
+      catch (error) {
+            setErrorAlert(true);  // Cambiado de setAlert a setErrorAlert
+            // Manejar errores de red o errores en la promesa anterior
+            console.error('Verifique sus credenciales', error.message);
+      }
+  };
+
+  
   return (
     <>
       {/* <Loader load={load} /> */}
-      <div className='bg-white px-8 py-5 rounded-3xl border-2 border-gray-100 w-[50%] text-center'>
+      <div className='bg-white px-9 py-5 rounded-3xl border-2 border-gray-100 w-[60%] text-center'>
         <h1 className=' text-4xl font-semibold text-center'>Welcome to Bug Tracker</h1>
-        <p className=" font-medium text-lg text-gray-500 mt-1">Please, enter your details</p>
+        <p className=" font-medium text-lg text-gray-500 mt-1">Please, enter your credentials</p>
 
         <form className="mt-4" onSubmit={handleSubmit}>
           <div>
@@ -149,7 +163,7 @@ function LoginForm() {
 
           {/* Sign In Buttons */}
           <div className='mt-8 flex flex-col gap-y-4'>
-            <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yummy-800 text-white text-lg font-bold' onClick={() => { post_sign_in() }}>Sign in</button>
+            <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yummy-800 text-white text-lg font-bold' onClick={() => { postSignIn(); }}>Sign in</button>
 
             <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all flex rounded-xl py-3 border-2 border-gray-300 items-center justify-center gap-2'>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http:www.w3.org/2000/svg">
@@ -162,15 +176,23 @@ function LoginForm() {
             </button>
           </div>
 
+          {
+            errorAlert && (
+              <AlertSignIn textBig={'Error!'} textLittle={'Incorrect credentials, try again'} colorFondo={'red-300'} colorBorde={'red-500'} colorTexto={'red-700'} icono={false}/>
+            )
+          }
+          {
+            confirmAlert && (
+              <AlertSignIn textBig={'Success!'} textLittle={'You have logged in successfully!'} colorFondo={'green-300'} colorBorde={'green-500'} colorTexto={'green-700'} icono={true} />
+            )
+          }
+
+
         </form>
       </div>
-      {
-        alert && (
-          <Alert severity='warning' className='absolute bottom-2 left-2 transition-all duration-300'>Your Password or Email is Incorrect, Please Try Again !</Alert>
-        )
-      }
+      
     </>
   )
-}
+    }
 
 export default LoginForm

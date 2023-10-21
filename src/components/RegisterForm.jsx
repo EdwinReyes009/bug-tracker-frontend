@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { TextField } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
@@ -12,8 +11,7 @@ import { countries } from '../services/country_codes'
 import { gender } from '../services/gender'
 import { profile } from '../services/profile'
 import SignUp from '../assets/animations/SignUp.mp4'
-import { BD_ACTION_POST } from '../services/master'
-
+import axios from 'axios'
 
 function RegisterForm() {
   const navigate = useNavigate()
@@ -49,27 +47,43 @@ function RegisterForm() {
   const post_new_user = async () => {
 
     const body = {
-      username: form.username,
+      name: form.first_name,
+      first_name: form.last_name,
+      last_name: form.second_last_name,
       email: form.email,
       password: form.password,
-      type_user_id: form.type_user_id,
-      first_name: form.first_name,
-      last_name: form.last_name,
-      second_last_name: form.second_last_name,
       phone: form.phone,
-      iso_code: form.country.code || 'MX',
-      dial_code: form.country.dial_code || '+52',
       picture: form.picture,
-      id_gender: form.id_gender
+      id_gender: form.id_gender,
+      id_profile: form.type_user_id,   
     }
 
-    const data = await BD_ACTION_POST('auth', 'sign_up', body)
+    const data = await axios.post('http://localhost:8000/create_user', body)
 
     if (!data.error) {
       setLoad(true)
+
+       setForm({
+          username: '',
+          email: '',
+          password: '',
+          confirm_password: '',
+          type_user_id: 1,
+          first_name: '',
+          last_name: '',
+          second_last_name: '',
+          phone: '',
+          country: countries.find(country => country.code === "MX"),
+          picture: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+          id_gender: 1
+        })
+
       setTimeout(() => {
+        console.log("Se ha enviado la data")
         navigate(`/auth/sign_in`)
-      }, 2000)
+        setLoad(false);
+       
+      }, 4000)
     } else {
       console.log("Error al enviar data")
       setLoad(false);
@@ -228,7 +242,7 @@ function RegisterForm() {
 
   return (
     <>
-      <Loader load={load} />
+      
       <div className='bg-yummy-800 min-h-screen flex flex-row items-center relative justify-center h-full'>
 
         {/* Contenedor del formulario */}
@@ -239,7 +253,7 @@ function RegisterForm() {
               <div className='flex flex-col'>
                 <TextField
                   required
-                  label='First Name'
+                  label='Name'
                   name='firstName'
                   type="text"
                   value={form.first_name}
@@ -249,7 +263,7 @@ function RegisterForm() {
                   variant='standard'
                   fullWidth
                   margin='normal'
-                  placeholder='Enter your First Name'
+                  placeholder='Enter your Name'
                   helperText={errorFirstName.message}
                   error={errorFirstName.error}
                 />
@@ -257,7 +271,7 @@ function RegisterForm() {
                 <div className='flex flex-row gap-6'>
                   <TextField
                     required
-                    label='Last Name'
+                    label='First Name'
                     name='lastName'
                     type="text"
                     value={form.last_name}
@@ -265,20 +279,20 @@ function RegisterForm() {
                     variant='standard'
                     fullWidth
                     margin='normal'
-                    placeholder='Enter your Last Name'
+                    placeholder='Enter your First Name'
                     helperText={errorLastName.message}
                     error={errorLastName.error}
                   />
 
                   <TextField
-                    label='Second Last Name'
+                    label='Last Name'
                     name='secondLastName'
                     value={form.second_last_name}
                     onChange={event => setForm({ ...form, second_last_name: event.target.value })}
                     variant='standard'
                     fullWidth
                     margin='normal'
-                    placeholder='Enter your Second Last Name'
+                    placeholder='Enter your Last Name'
                   />
                 </div>
 
@@ -484,7 +498,12 @@ function RegisterForm() {
                 <button type='submit' className='text-yummy-800 hover:text-yummy-600 transition-all duration-200'>
                   Register Now
                 </button>
+
               </div>
+
+              <Loader load={load} />
+
+
             </form>
           </div>
         </div>
