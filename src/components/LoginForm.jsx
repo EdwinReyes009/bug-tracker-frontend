@@ -111,7 +111,7 @@ function LoginForm() {
     <>
       {/* <Loader load={load} /> */}
       <div className='bg-white px-9 py-5 rounded-3xl border-2 border-gray-100 w-[60%] text-center'>
-        <h1 className=' text-4xl font-semibold text-center'>Welcome to Bug Tracker</h1>
+        <h1 className=' text-4xl font-semibold text-center'>Welcome to CodeFix</h1>
         <p className=" font-medium text-lg text-gray-500 mt-1">Please, enter your credentials</p>
 
         <form className="mt-4" onSubmit={handleSubmit}>

@@ -1,18 +1,18 @@
 import { isExpired, decodeToken } from 'react-jwt'
 
 export function setJWT(token) {
-    localStorage.setItem('JWT_YUMMT', token)
+    localStorage.setItem('JWT_FXC', token)
 }
 
 export function getJWT() {
-    if (localStorage.getItem('JWT_YUMMT'))
-        return localStorage.getItem('JWT_YUMMT')
+    if (localStorage.getItem('JWT_FXC'))
+        return localStorage.getItem('JWT_FXC')
 
     return ''
 }
 
 export function removeJWT() {
-    localStorage.removeItem('JWT_YUMMT')
+    localStorage.removeItem('JWT_FXC')
 }
 
 export function expiredJWT() {
@@ -29,7 +29,7 @@ export function decodedJWT() {
 
 export function decodedDataJWT() {
     const decoded = decodeToken(getJWT())
-    const data = decoded.data
+    const data = decoded.user_id
 
     return data
 }
