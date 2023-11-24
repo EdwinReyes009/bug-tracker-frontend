@@ -1,4 +1,4 @@
-# Admin Delivery Yummy Go
+# Bug Tracker CodeFix
 
 Main Dashboard to Yummy Go App, made with ReactJS
 ## Install Libraries
@@ -22,8 +22,8 @@ To run project, run the following command
 ```bash
   yarn dev
 ```
+Remember to turn on the respective backend services (FastApi)
+
 ## Authors
 
-- [@DeicideSuici](https://github.com/DeicideSuici)
-- [@angelzd](https://www.github.com/angelzd27)
 - [@EdwinReyes009](https://github.com/EdwinReyes009)
