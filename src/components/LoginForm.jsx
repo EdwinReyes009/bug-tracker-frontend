@@ -92,8 +92,9 @@ function LoginForm() {
           }, 2000)
          
         } else {
-          setLoad(false)
-          setAlert(true)
+          setErrorAlert(true);  // Cambiado de setAlert a setErrorAlert
+          // setLoad(false)
+          // setAlert(true)
           setTimeout(() => {
             setAlert(false)
           }, 6000);
@@ -178,13 +179,13 @@ function LoginForm() {
 
           {
             errorAlert && (
-              <AlertSignIn textBig={'Error!'} textLittle={'Incorrect credentials, try again'} colorFondo={'red-300'} colorBorde={'red-500'} colorTexto={'red-700'} icono={false}/>
+              <AlertSignIn textBig={'Error!'} textLittle={'Incorrect credentials, try again'} colorFondo={'bg-red-300'} colorBorde={'red-500'} colorTexto={'red-700'} icono={false}/>
             )
           }
           {
             confirmAlert && (
-              <AlertSignIn textBig={'Success!'} textLittle={'You have logged in successfully!'} colorFondo={'green-300'} colorBorde={'green-500'} colorTexto={'green-700'} icono={true} />
-            )
+              <AlertSignIn textBig={'Success!'} textLittle={'You have logged in successfully!'} colorFondo={'bg-green-300'} colorBorde={'green-500'} colorTexto={'green-700'} icono={true} />
+            ) 
           }
 
 

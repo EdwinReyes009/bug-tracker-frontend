@@ -7,6 +7,8 @@ import {faBug} from '@fortawesome/free-solid-svg-icons';
 import CustomizedCheckbox from '../components/CustomizedCheckbox';
 import TopBar from '../components/TopBar'
 import { useEffect, useState } from 'react';
+import Sidebar from './Sidebar';
+
 
 function Inicio() {
 
@@ -31,30 +33,22 @@ function Inicio() {
 
         <TopBar page={'Inicio'}/>
         
-
-        
-
         <div>
-             <h1 className='px-72 pt-12 pb-12 font-bold text-xl'>Bienvenido {decodedDataJWT().full_name}</h1>
+             <h1 className='px-48 pt-12 pb-12 font-bold text-xl'>Bienvenido {decodedDataJWT().full_name}</h1>
         </div>
 
         <div className='flex'>
 
-          <div className='ml-72 w-4/12 h-44 border-4 border-solid border-square-500 rounded-lg p-4'>
+          <div className='w-1/2 h-44 ml-48 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4'>
               
               <div className='flex pl-5 pr-5 justify-between'>
                  <h1 className=' pt-12 font-bold text-3xl'>0</h1>
                 <FontAwesomeIcon icon={faBug} className='pt-10 text-5xl text-green-600'/>
               </div>
-
-               
                 <h1 className='pt-6 font-bold text-xl'>Errores pendientes</h1>   
-
          </div>
 
-
-
-         <div className='ml-24 w-4/12 h-44 border-4 border-solid border-square-500 rounded-lg p-4'>
+         <div className='ml-16 w-1/2 h-44 lg:w-4/12  border-4 border-solid border-square-500 rounded-lg p-4'>
               <div className='flex pl-5 pr-5 justify-between'>
                  <h1 className=' pt-12 font-bold text-3xl'>0</h1>
                 <FontAwesomeIcon icon={faBug} className='pt-10 text-5xl text-red-600'/>
@@ -66,17 +60,17 @@ function Inicio() {
         </div>
 
         <div className='flex pt-12' >
-                <div className='ml-72 w-4/12 h-44 border-4 border-solid border-square-500 rounded-lg p-4 '>
+                <div className='w-1/2 h-44 ml-48 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4 '>
                 <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas que vencen hoy:</h1>
 
                 </div>
 
-                <div className='ml-24 w-4/12 h-44 border-4 border-solid border-square-500 rounded-lg p-4'>
+                <div className='ml-16 w-1/2 h-44 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4'>
                 <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas atrasadas:</h1>
                 </div>
         </div>
         <div className='flex pt-12 pb-12' >
-                <div className='ml-72 w-[calc(75%-10px)] h-44 border-4 border-solid border-square-500 rounded-lg p-4 overflow-auto'>
+                <div className='ml-48 w-[calc(75%-10px)] h-44 border-4 border-solid border-square-500 rounded-lg p-4 overflow-auto'>
                 <h1 className=' pt-2 pb-3 font-bold text-xl'>Todos los errores:</h1>
                     <ul>
                         {elementos.map((elemento) => (

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
-function AlertSignIn({textBig, textLittle, colorFondo, colorBorde, colorTexto, icono}) {
+function AlertSignIn(props) {
     const [dots, setDots] = useState(1)
+    const classChangeColor = props.colorFondo ? 'bg-green-300' : '';
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -14,12 +15,12 @@ function AlertSignIn({textBig, textLittle, colorFondo, colorBorde, colorTexto, i
 
         return (
             <>
-                <div className={`bg-${colorFondo} border-t border-b border-${colorBorde} text-${colorTexto} px-4 py-3 animate-bounce fixed top-6 w-1/2 transform transition-transform duration-1000 ease-in-out`}>
+                <div className={`${classChangeColor} border-t border-b px-4 py-3 animate-bounce fixed top-6 w-1/2 transform transition-transform duration-1000 ease-in-out`}>
                
                <div className='flex items-center justify-center'>
 
                 {
-                    icono ? (
+                    props.icono ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -32,10 +33,10 @@ function AlertSignIn({textBig, textLittle, colorFondo, colorBorde, colorTexto, i
 
               
 
-                <p className="ml-3 font-bold">{textBig}</p>
+                <p className="ml-3 font-bold">{props.textBig}</p>
                </div>
               
-                    <p className="text-sm">{textLittle}</p>
+                    <p className="text-sm">{props.textLittle}</p>
                     
                 </div>
 
