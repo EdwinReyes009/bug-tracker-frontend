@@ -33,6 +33,7 @@ function Home() {
                                 <Route path='/informes' element={<Informes />} />
                                 <Route path='/calendario' element={<Calendario />} />
                                 <Route path='/proyectos' element={<Proyectos />} />
+                                <Route path='/home/proyectos' element={<Proyectos />} />
                                 <Route path='/project-detail/:id' element={<ProjectDetail />} />
                                 <Route path='/project-add' element={<ProjectDetail />} />
                                 <Route path='/errores' element={<Errores />} />

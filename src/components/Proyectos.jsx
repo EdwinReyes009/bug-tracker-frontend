@@ -1,7 +1,7 @@
 
 import { removeJWT, decodedDataJWT } from '../services/jwt'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import TopBar from '../components/TopBar'
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,20 +11,11 @@ import {faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 
 function Proyectos() {
     const navigate = useNavigate()
-    const [datos, setDatos] = useState([]);
-
-    //Uso de sessionStorage para guardar los datos y que no se haga la petición cada vez que se navege a la página    
-    const TBLProData = sessionStorage.getItem('tblProjectData');
+    const params = useParams()
+    const [datos, setDatos] = useState([]);   
     
     const getProjects = async () => {      
 
-      if (TBLProData) {
-        // Utiliza los datos almacenados en la caché
-        const projectData = JSON.parse(TBLProData);
-        // Actualiza tu estado local con projectData
-        setDatos(projectData);
-      }
-      else {
         // Realiza la petición GET con Axios y actualiza la caché
         try{
           
@@ -33,11 +24,11 @@ function Proyectos() {
     
           if (data && !data.error) {
             setTimeout(() => {
-                console.log('Obteniendo DATA');
-                console.log(result[0]);
-                sessionStorage.setItem('tblProjectData', JSON.stringify(result))
+                // console.log('Obteniendo DATA');
+                // console.log(result[0]);
+                
                 setDatos(result);
-            }, 1000);
+            }, 50);
         } else {
             setTimeout(() => {
                 console.log('No hay DATA');
@@ -47,17 +38,42 @@ function Proyectos() {
             // Manejar errores de red o errores en la promesa anterior
             console.error('Verifique su código', error.message);
           }
-      }   
+      
       };
 
   useEffect(() => {
+    const id = params.id
     
     getProjects()
     
-  }, []);
+  }, [params]);
+
+  const delete_project = async (id) => {
+    
+    const data = await axios.delete(`http://localhost:8000/delete_project/${id}`)
+
+    if (!data.error) {
+
+       const updatedProjects = datos.filter((project) => project.id !== id);
+
+       // Actualiza el estado con la nueva lista de proyectos
+        setDatos(updatedProjects);
+
+        setTimeout(() => {
+            console.log('Proyecto Eliminado')
+        }, 4000)
+    } else {
+        console.error('No se ha podido eliminar el proyecto')
+    }
+}
 
   const viewproject = (id) => {
      navigate(`/home/project-detail/${id}`)
+    console.log(id)
+  }
+
+  const viewprojectForDelete = (id) => {
+    //  navigate(`/home/project-detail/${id}`)
     console.log(id)
   }
     return (
@@ -94,7 +110,6 @@ function Proyectos() {
             </tr>
           </thead>
           <tbody>
-            
                     {datos.map((fila, index) => (
                       <tr key={index}>
                         {Object.keys(fila).map((columna, columnIndex) => (
@@ -107,13 +122,18 @@ function Proyectos() {
                           </button>
                         </td>
                         <td>
-                          <button className="bg-red-500 text-white px-3 py-2 rounded">
+                          <button className="bg-red-500 text-white px-3 py-2 rounded" onClick={() => {
+                            const shouldDelete = window.confirm('¿Estás seguro de que deseas eliminar este proyecto?');
+
+                            if (shouldDelete) {
+                              delete_project(fila.id);
+                            }
+                          }}>
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
                         </td>
                       </tr>
                     ))}
-
           </tbody>
         </table>
       </div>

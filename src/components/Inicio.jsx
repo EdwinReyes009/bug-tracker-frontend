@@ -8,6 +8,7 @@ import CustomizedCheckbox from '../components/CustomizedCheckbox';
 import TopBar from '../components/TopBar'
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
+import { Result } from 'postcss';
 
 
 function Inicio() {
@@ -19,6 +20,8 @@ function Inicio() {
     { id: 4, texto: ' Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el', seleccionado: false },
     { id: 5, texto: ' Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el', seleccionado: false },
   ]);
+
+  const [datos, setDatos] = useState([]);
     
   const manejarCambioCheckbox = (id) => {
     setElementos((prevElementos) =>
@@ -27,6 +30,33 @@ function Inicio() {
       )
     );
   };
+
+  async function get_tareas() {
+          
+    const id_user = decodedDataJWT().id;
+
+   
+      
+    const data = await axios.get(`http://localhost:8000/get_tareas_user?id_user=${id_user}`);
+    let result = data.data
+          if (!data.error) {  
+            setDatos(result);
+                           
+          }
+      
+  }
+
+    
+    useEffect(() => {
+      
+
+       get_tareas()
+      return () => { }
+  },[])
+  
+  
+
+
 
     return (
         <>
@@ -42,7 +72,7 @@ function Inicio() {
           <div className='w-1/2 h-44 ml-48 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4'>
               
               <div className='flex pl-5 pr-5 justify-between'>
-                 <h1 className=' pt-12 font-bold text-3xl'>0</h1>
+                 <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'pendientes')?.cantidad}</h1>
                 <FontAwesomeIcon icon={faBug} className='pt-10 text-5xl text-green-600'/>
               </div>
                 <h1 className='pt-6 font-bold text-xl'>Errores pendientes</h1>   
@@ -50,7 +80,7 @@ function Inicio() {
 
          <div className='ml-16 w-1/2 h-44 lg:w-4/12  border-4 border-solid border-square-500 rounded-lg p-4'>
               <div className='flex pl-5 pr-5 justify-between'>
-                 <h1 className=' pt-12 font-bold text-3xl'>0</h1>
+                 <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'resueltos')?.cantidad}</h1>
                 <FontAwesomeIcon icon={faBug} className='pt-10 text-5xl text-red-600'/>
               </div>
 
@@ -62,11 +92,12 @@ function Inicio() {
         <div className='flex pt-12' >
                 <div className='w-1/2 h-44 ml-48 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4 '>
                 <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas que vencen hoy:</h1>
-
+                <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'hoy')?.cantidad}</h1>
                 </div>
 
                 <div className='ml-16 w-1/2 h-44 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4'>
                 <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas atrasadas:</h1>
+                <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'atrasados')?.cantidad}</h1>
                 </div>
         </div>
         <div className='flex pt-12 pb-12' >

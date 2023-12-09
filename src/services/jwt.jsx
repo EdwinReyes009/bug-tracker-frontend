@@ -12,7 +12,13 @@ export function getJWT() {
 }
 
 export function removeJWT() {
+
+    const shouldDelete = window.confirm('¿Estás seguro de que quieres salir de la sesión?');
+    if (shouldDelete) {
     localStorage.removeItem('JWT_FXC')
+    }
+
+    
 }
 
 export function expiredJWT() {
