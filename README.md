@@ -23,6 +23,7 @@ To run project, run the following command
   yarn dev
 ```
 Remember to turn on the respective backend services (FastApi)
+Repo Name Backend:   venv-api-rest
 
 ## Authors
 
