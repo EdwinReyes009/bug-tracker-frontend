@@ -3,20 +3,14 @@ import Inicio from '../components/Inicio'
 import Informes from '../components/Informes'
 import Calendario from '../components/Calendario'
 import Proyectos from '../components/Proyectos'
-import Errores from '../components/Errores'
+import Bugs from '../components/Bugs'
 import { expiredJWT } from '../services/jwt'
 import LoginForm from '../components/LoginForm'
 import Sidebar from '../components/Sidebar'
 import ProjectDetail from '../components/ProjectDetail'
-
-import { useState } from 'react'
+import BugDetail from '../components/BugDetail'
 
 function Home() {
-
-    const [pageSelected, setPageSelected] = useState('Inicio')
-
-    
-
     return (
         <>
             {
@@ -36,7 +30,9 @@ function Home() {
                                 <Route path='/home/proyectos' element={<Proyectos />} />
                                 <Route path='/project-detail/:id' element={<ProjectDetail />} />
                                 <Route path='/project-add' element={<ProjectDetail />} />
-                                <Route path='/errores' element={<Errores />} />
+                                <Route path='/errores' element={<Bugs />} />
+                                <Route path='/bug-detail/:id' element={<BugDetail />} />
+                                <Route path='/bug-add' element={<BugDetail />} />
                                 <Route path='/auth/sign_in' element={<LoginForm />} />
                                 <Route path='/*' element={<Navigate to='/not-found' />} />
                             </Routes>

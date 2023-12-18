@@ -3,7 +3,7 @@ import { removeJWT, decodedDataJWT, getJWT, decodedJWT } from '../services/jwt'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBug} from '@fortawesome/free-solid-svg-icons';
+import {faBug, faCalendarXmark, faCalendarDay} from '@fortawesome/free-solid-svg-icons';
 import CustomizedCheckbox from '../components/CustomizedCheckbox';
 import TopBar from '../components/TopBar'
 import { useEffect, useState } from 'react';
@@ -64,7 +64,7 @@ function Inicio() {
         <TopBar page={'Inicio'}/>
         
         <div>
-             <h1 className='px-48 pt-12 pb-12 font-bold text-xl'>Bienvenido {decodedDataJWT().full_name}</h1>
+             <h1 className='px-48 pt-8 pb-8 font-bold text-xl'>Bienvenido {decodedDataJWT().full_name}</h1>
         </div>
 
         <div className='flex'>
@@ -91,30 +91,23 @@ function Inicio() {
 
         <div className='flex pt-12' >
                 <div className='w-1/2 h-44 ml-48 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4 '>
-                <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas que vencen hoy:</h1>
-                <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'hoy')?.cantidad}</h1>
+              <div className='flex'>
+              <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas que vencen hoy:</h1>
+                <FontAwesomeIcon icon={faCalendarDay} className='pt-10 pl-20 text-5xl text-yellow-600'/>
+              </div>
+                
+                <h1 className='font-bold text-3xl'>{datos.find(item => item.tipo === 'hoy')?.cantidad}</h1>
                 </div>
 
                 <div className='ml-16 w-1/2 h-44 lg:w-4/12 border-4 border-solid border-square-500 rounded-lg p-4'>
-                <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas atrasadas:</h1>
-                <h1 className=' pt-12 font-bold text-3xl'>{datos.find(item => item.tipo === 'atrasados')?.cantidad}</h1>
-                </div>
-        </div>
-        <div className='flex pt-12 pb-12' >
-                <div className='ml-48 w-[calc(75%-10px)] h-44 border-4 border-solid border-square-500 rounded-lg p-4 overflow-auto'>
-                <h1 className=' pt-2 pb-3 font-bold text-xl'>Todos los errores:</h1>
-                    <ul>
-                        {elementos.map((elemento) => (
-                            <li key={elemento.id}>
-                                <input
-                                    type="checkbox"
-                                    checked={elemento.seleccionado}
-                                    onChange={() => manejarCambioCheckbox(elemento.id)}
-                                />
-                                {elemento.texto}
-                            </li>
-                        ))}
-                    </ul>
+               
+               <div className='flex'>
+               <h1 className=' pt-2 pb-12 font-bold text-xl'>Mis tareas atrasadas:</h1>
+                <FontAwesomeIcon icon={faCalendarXmark} className='pt-10 pl-32 text-5xl text-orange-600'/>
+               </div>
+             
+                <h1 className='font-bold text-3xl'>{datos.find(item => item.tipo === 'atrasados')?.cantidad}</h1>
+
                 </div>
         </div>
          
